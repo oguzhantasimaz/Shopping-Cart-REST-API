@@ -1,0 +1,14 @@
+Env: "prod"
+
+DatabaseSettings:
+  DatabaseURI: "root:Password123!@tcp(127.0.0.1:3306)/location?parseTime=True&loc=Local"
+  DatabaseName: "PRODlocation"
+  Username: "PRODroot"
+  Password: "PRODPassword123!"
+
+NewRelicSettings:
+  LicenseKey: "YOUR_LICENSE_KEY"
+  AppName: "YOUR_PROD_APP_NAME"
+
+JwtSettings:
+  SecretKey: "MY_PROD_SECRET_KEY"
