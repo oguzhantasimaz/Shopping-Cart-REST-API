@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm/schema"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -14,10 +12,10 @@ func NewMySQLDB(conString string) *gorm.DB {
 
 	db, err := gorm.Open(mysql.Open(conString), &gorm.Config{
 		PrepareStmt: true,
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-			NoLowerCase:   true,
-		},
+		// NamingStrategy: schema.NamingStrategy{
+		// 	SingularTable: true,
+		// 	NoLowerCase:   true,
+		// },
 		NowFunc: func() time.Time {
 			return time.Now().UTC()
 		},
