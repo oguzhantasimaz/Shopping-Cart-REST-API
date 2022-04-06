@@ -15,6 +15,8 @@ func main() {
 	r := gin.Default()
 	registerMiddlewares(r)
 
+	//db := database_handler.NewMySQLDB("root:Ot123456@tcp(127.0.0.1:3306)/shopping?charset=utf8mb4&parseTime=True&loc=Local")
+
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: r,
@@ -22,7 +24,7 @@ func main() {
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
-			log.Printf("listen: %s\n", err)
+			log.Printf("listen: %s \n", err)
 		}
 	}()
 
