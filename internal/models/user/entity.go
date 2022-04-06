@@ -1,10 +1,22 @@
 package user
 
+import (
+	"crypto"
+	"time"
+
+	"gorm.io/gorm"
+)
+
 type User struct {
-	Id       int
-	Username string
-	Password string
-	Roles    []string
+	gorm.Model
+	Id        int
+	Username  string
+	Iat       int
+	Exp       int
+	Salt      string
+	Hash      string
+	Roles     []string
+	CreatedAt time.Time `gorm:"<-:create"`
 }
 
 func GetUserList() []*User {
@@ -12,21 +24,18 @@ func GetUserList() []*User {
 		{
 			Id:       1,
 			Username: "admin",
-			Password: "1234",
+			Iat:      int(time.Now().Unix()),
+			Exp:      int(time.Now().Unix() + 3600),
+			Salt:     "206161894b3957ad",
+			Hash:     "e9f26691865bd07efcb42f3f4b66589ba175ff0ccad4b03e5655c1129dc1ad7fcdc6b94a83153424993c4377237c1fb910e6a9cfd12a96ee4eff544ae2dabfc4",
 			Roles:    []string{"admin", "customer"},
-		},
-		{
-			Id:       2,
-			Username: "customer",
-			Password: "12345",
-			Roles:    []string{"customer"},
 		},
 	}
 }
 
 func GetUser(username, password string) *User {
 	for _, v := range GetUserList() {
-		if v.Username == username && v.Password == password {
+		if v.Username == username && v.Hash == string(crypto.SHA512.New().Sum([]byte(v.Salt+password))) {
 			return v
 		}
 	}
