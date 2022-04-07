@@ -42,3 +42,23 @@ func GetUser(username, password string) *User {
 
 	return nil
 }
+
+func Create(r Repository, u *User) error {
+	return r.Create(u)
+}
+
+func Update(r Repository, u *User) error {
+	return r.Update(u)
+}
+
+func Delete(r Repository, id int) error {
+	return r.Delete(id)
+}
+
+func FindById(r Repository, id int) (*User, error) {
+	return r.FindById(id)
+}
+
+func FindAll(r Repository) ([]*User, error) {
+	return r.FindAll()
+}

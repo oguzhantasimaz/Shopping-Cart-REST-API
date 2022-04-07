@@ -1,8 +1,8 @@
 package user
 
-type UserRepository interface {
+type Repository interface {
 	Migration()
-	Create(user *User) UserRepository
+	Create(user *User) error
 	Update(user *User) error
 	Delete(id int) error
 	FindById(id int) (*User, error)

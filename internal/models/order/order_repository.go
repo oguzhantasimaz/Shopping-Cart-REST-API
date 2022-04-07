@@ -6,5 +6,5 @@ type Repository interface {
 	Update(order *Order) error
 	Delete(id int) error
 	FindById(id int) (*Order, error)
-	FindAllByCustomerID(customerID int) ([]*Order, error)
+	FindAllByCustomerId(customerID int) ([]*Order, error)
 }
