@@ -63,7 +63,15 @@ func main() {
 		})
 	})
 
+	//cart routes
+	r.GET("/cart/get/:id", cartCtrl.FindByIdCart)
 	r.POST("/cart/create", cartCtrl.CreateCart)
+	r.PUT("/cart/update/:id", cartCtrl.UpdateCart)
+	r.DELETE("/cart/delete/:id", cartCtrl.DeleteCart)
+
+	//category routes
+
+	//product routes
 	r.POST("/product/create", productCtrl.CreateProduct)
 
 	go func() {
