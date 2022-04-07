@@ -38,7 +38,7 @@ func (r *orderRepository) FindAllByCustomerID(customerID int) ([]order.Order, er
 	return orders, nil
 }
 
-func (r *orderRepository) FindByID(id int) (*order.Order, error) {
+func (r *orderRepository) FindById(id int) (*order.Order, error) {
 	o := new(order.Order)
 	err := r.db.Where("id = ?", id).First(o).Error
 	if err != nil {

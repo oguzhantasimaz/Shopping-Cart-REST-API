@@ -1,10 +1,10 @@
 package order
 
-type OrderRepository interface {
+type Repository interface {
 	Migration()
 	Create(order *Order) error
 	Update(order *Order) error
 	Delete(id int) error
-	FindByID(id int) (*Order, error)
+	FindById(id int) (*Order, error)
 	FindAllByCustomerID(customerID int) ([]*Order, error)
 }

@@ -31,7 +31,7 @@ func (r *cartRepository) Create(cart *cart.Cart) error {
 	return r.db.Create(cart).Error
 }
 
-func (r *cartRepository) FindByID(id uint) (*cart.Cart, error) {
+func (r *cartRepository) FindById(id uint) (*cart.Cart, error) {
 	c := new(cart.Cart)
 	err := r.db.First(c, id).Error
 	if err != nil {

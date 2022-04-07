@@ -46,7 +46,7 @@ func (r *categoryRepository) FindAll() ([]category.Category, error) {
 	return categories, nil
 }
 
-func (r *categoryRepository) FindByID(id int) (*category.Category, error) {
+func (r *categoryRepository) FindById(id int) (*category.Category, error) {
 	c := new(category.Category)
 	err := r.db.Where("id = ?", id).First(c).Error
 	if err != nil {
