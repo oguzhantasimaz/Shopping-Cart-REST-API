@@ -21,11 +21,11 @@ func (s *CartService) Create(req *CreateCartRequest) error {
 	}
 
 	newCart := &cart.Cart{
-		CustomerId: req.CustomerId,
+		CustomerID: req.CustomerID,
 		Products:   req.Products,
 		TotalPrice: totalPrice,
 	}
-	return cart.CreateCart(s.repository, newCart)
+	return cart.Create(s.repository, newCart)
 }
 
 func (s *CartService) Update(req *UpdateCartRequest) error {
@@ -37,24 +37,24 @@ func (s *CartService) Update(req *UpdateCartRequest) error {
 		totalPrice += product.UnitPrice * float64(product.Quantity)
 	}
 	newCart := &cart.Cart{
-		Id:         req.Id,
-		CustomerId: req.CustomerId,
+		ID:         req.ID,
+		CustomerID: req.CustomerID,
 		Products:   req.Products,
 		TotalPrice: totalPrice,
 	}
-	return cart.UpdateCart(s.repository, newCart)
+	return cart.Update(s.repository, newCart)
 }
 
 func (s *CartService) Delete(req *DeleteCartRequest) error {
 	if err := DeleteCartValidate(req); err != nil {
 		return err
 	}
-	return cart.DeleteCart(s.repository, req.Id)
+	return cart.Delete(s.repository, req.ID)
 }
 
-func (s *CartService) FindById(req *FindByIdRequest) (*cart.Cart, error) {
-	if err := FindByIdValidate(req); err != nil {
+func (s *CartService) FindByID(req *FindByIDRequest) (*cart.Cart, error) {
+	if err := FindByIDValidate(req); err != nil {
 		return nil, err
 	}
-	return cart.FindByIdCart(s.repository, req.Id)
+	return cart.FindByID(s.repository, req.ID)
 }

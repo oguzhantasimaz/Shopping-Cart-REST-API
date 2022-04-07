@@ -50,7 +50,7 @@ func (c *AuthController) Login(g *gin.Context) {
 		})
 	}
 	jwtClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userId":   user.Id,
+		"userID":   user.ID,
 		"username": user.Username,
 		"iat":      time.Now().Unix(),
 		"iss":      os.Getenv("ENV"),

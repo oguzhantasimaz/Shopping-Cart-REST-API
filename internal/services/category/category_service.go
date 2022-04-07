@@ -14,8 +14,8 @@ func (s *CategoryService) FindAll() ([]*category.Category, error) {
 	return category.FindAll(s.repository)
 }
 
-func (s *CategoryService) FindById(id int) (*category.Category, error) {
-	return category.FindById(s.repository, id)
+func (s *CategoryService) FindByID(id int) (*category.Category, error) {
+	return category.FindByID(s.repository, id)
 }
 
 func (s *CategoryService) Create(newCategory *category.Category) error {

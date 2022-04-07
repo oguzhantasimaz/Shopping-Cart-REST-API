@@ -9,13 +9,14 @@ import (
 
 type Product struct {
 	gorm.Model
-	Id        int
-	Name      string
-	SKU       string
-	UnitPrice float64
-	Quantity  int
-	Category  category.Category
-	CreatedAt time.Time `gorm:"<-:create"`
+	ID         int
+	Name       string
+	SKU        string
+	UnitPrice  float64
+	Quantity   int
+	CategoryID int
+	Category   category.Category `gorm:"foreignKey:CategoryID;references:ID"`
+	CreatedAt  time.Time         `gorm:"<-:create"`
 }
 
 func Create(r Repository, p *Product) error {
@@ -30,6 +31,6 @@ func Delete(r Repository, id int) error {
 	return r.Delete(id)
 }
 
-func FindById(r Repository, id int) (*Product, error) {
-	return r.FindById(id)
+func FindByID(r Repository, id int) (*Product, error) {
+	return r.FindByID(id)
 }

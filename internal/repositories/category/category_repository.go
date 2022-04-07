@@ -37,8 +37,8 @@ func (r *categoryRepository) Delete(id int) error {
 	return r.db.Where("id = ?", id).Delete(&category.Category{}).Error
 }
 
-func (r *categoryRepository) FindAll() ([]category.Category, error) {
-	var categories []category.Category
+func (r *categoryRepository) FindAll() (*[]category.Category, error) {
+	var categories *[]category.Category
 	err := r.db.Find(&categories).Error
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (r *categoryRepository) FindAll() ([]category.Category, error) {
 	return categories, nil
 }
 
-func (r *categoryRepository) FindById(id int) (*category.Category, error) {
+func (r *categoryRepository) FindByID(id int) (*category.Category, error) {
 	c := new(category.Category)
 	err := r.db.Where("id = ?", id).First(c).Error
 	if err != nil {
@@ -55,6 +55,6 @@ func (r *categoryRepository) FindById(id int) (*category.Category, error) {
 	return c, nil
 }
 
-func (r *categoryRepository) CreateBulked(categories []category.Category) error {
+func (r *categoryRepository) CreateBulked(categories *[]category.Category) error {
 	return r.db.Create(&categories).Error
 }

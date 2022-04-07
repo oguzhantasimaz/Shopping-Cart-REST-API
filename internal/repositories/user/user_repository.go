@@ -15,11 +15,23 @@ func NewUserRepository(db *gorm.DB) *userRepository {
 	}
 }
 
+func (ur *userRepository) Migration() error {
+	err := ur.db.Migrator().DropTable(&user.User{})
+	if err != nil {
+		return err
+	}
+	err = ur.db.AutoMigrate(&user.User{})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (ur *userRepository) Create(user *user.User) error {
 	return ur.db.Create(user).Error
 }
 
-func (ur *userRepository) FindById(id int) (*user.User, error) {
+func (ur *userRepository) FindByID(id int) (*user.User, error) {
 	u := new(user.User)
 	err := ur.db.First(u, id).Error
 	if err != nil {

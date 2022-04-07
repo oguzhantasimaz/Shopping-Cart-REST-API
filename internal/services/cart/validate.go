@@ -1,16 +1,16 @@
 package cart_service
 
 func CreateCartValidate(r *CreateCartRequest) error {
-	if r.CustomerId <= 0 {
-		return ErrCustomerIdRequired
+	if r.CustomerID <= 0 {
+		return ErrCustomerIDRequired
 	}
 	if r.Products == nil || len(r.Products) == 0 {
 		return ErrProductsRequired
 	}
 	if r.Products != nil {
 		for _, product := range r.Products {
-			if product.Id <= 0 {
-				return ErrProductIdRequired
+			if product.ID <= 0 {
+				return ErrProductIDRequired
 			}
 			if product.Quantity <= 0 {
 				return ErrProductQuantityRequired
@@ -21,19 +21,19 @@ func CreateCartValidate(r *CreateCartRequest) error {
 }
 
 func UpdateCartValidate(r *UpdateCartRequest) error {
-	if r.Id <= 0 {
-		return ErrCartIdRequired
+	if r.ID <= 0 {
+		return ErrCartIDRequired
 	}
-	if r.CustomerId <= 0 {
-		return ErrCustomerIdRequired
+	if r.CustomerID <= 0 {
+		return ErrCustomerIDRequired
 	}
 	if r.Products == nil || len(r.Products) == 0 {
 		return ErrProductsRequired
 	}
 	if r.Products != nil {
 		for _, product := range r.Products {
-			if product.Id <= 0 {
-				return ErrProductIdRequired
+			if product.ID <= 0 {
+				return ErrProductIDRequired
 			}
 			if product.Quantity <= 0 {
 				return ErrProductQuantityRequired
@@ -47,15 +47,15 @@ func UpdateCartValidate(r *UpdateCartRequest) error {
 }
 
 func DeleteCartValidate(r *DeleteCartRequest) error {
-	if r.Id <= 0 {
-		return ErrCartIdRequired
+	if r.ID <= 0 {
+		return ErrCartIDRequired
 	}
 	return nil
 }
 
-func FindByIdValidate(r *FindByIdRequest) error {
-	if r.Id <= 0 {
-		return ErrCartIdRequired
+func FindByIDValidate(r *FindByIDRequest) error {
+	if r.ID <= 0 {
+		return ErrCartIDRequired
 	}
 	return nil
 }

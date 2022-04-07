@@ -9,14 +9,14 @@ type CreateCategoryBulkedRequest struct {
 }
 
 type UpdateCategoryRequest struct {
-	Id   int    `json:"id"`
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
 type DeleteCategoryRequest struct {
-	Id int `json:"id"`
+	ID int `json:"id"`
 }
 
-type FindByIdCategoryRequest struct {
-	Id int `json:"id"`
+type FindByIDCategoryRequest struct {
+	ID int `json:"id"`
 }

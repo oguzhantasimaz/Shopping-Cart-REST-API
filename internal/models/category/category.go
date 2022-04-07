@@ -8,18 +8,18 @@ import (
 
 type Category struct {
 	gorm.Model
-	Id        int
+	ID        int
 	Name      string
 	CreatedAt time.Time `gorm:"<-:create"`
 }
 
-func FindAll(r Repository) ([]*Category, error) {
+func FindAll(r Repository) (*[]Category, error) {
 	categories, err := r.FindAll()
 	return categories, err
 }
 
-func FindById(r Repository, id int) (*Category, error) {
-	category, err := r.FindById(id)
+func FindByID(r Repository, id int) (*Category, error) {
+	category, err := r.FindByID(id)
 	return category, err
 }
 
@@ -38,7 +38,7 @@ func Delete(r Repository, id int) error {
 	return err
 }
 
-func CreateBulked(r Repository, categories []*Category) error {
+func CreateBulked(r Repository, categories *[]Category) error {
 	err := r.CreateBulked(categories)
 	return err
 }

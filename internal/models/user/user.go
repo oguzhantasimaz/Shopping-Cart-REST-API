@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	gorm.Model
-	Id        int
+	ID        int
 	Username  string
 	Iat       int
 	Exp       int
@@ -22,7 +22,7 @@ type User struct {
 func GetUserList() []*User {
 	return []*User{
 		{
-			Id:       1,
+			ID:       1,
 			Username: "admin",
 			Iat:      int(time.Now().Unix()),
 			Exp:      int(time.Now().Unix() + 3600),
@@ -55,8 +55,8 @@ func Delete(r Repository, id int) error {
 	return r.Delete(id)
 }
 
-func FindById(r Repository, id int) (*User, error) {
-	return r.FindById(id)
+func FindByID(r Repository, id int) (*User, error) {
+	return r.FindByID(id)
 }
 
 func FindAll(r Repository) ([]*User, error) {

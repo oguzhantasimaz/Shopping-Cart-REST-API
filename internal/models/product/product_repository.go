@@ -1,9 +1,9 @@
 package product
 
 type Repository interface {
-	Migration()
+	Migration() error
 	Create(product *Product) error
 	Update(product *Product) error
 	Delete(id int) error
-	FindById(id int) (*Product, error)
+	FindByID(id int) (*Product, error)
 }

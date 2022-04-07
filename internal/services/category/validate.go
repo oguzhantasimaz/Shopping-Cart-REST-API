@@ -15,8 +15,8 @@ func CreateCategoryBulkedValidate(r *CreateCategoryBulkedRequest) error {
 }
 
 func UpdateCategoryValidate(r *UpdateCategoryRequest) error {
-	if r.Id == 0 {
-		return ErrCategoryIdEmpty
+	if r.ID == 0 {
+		return ErrCategoryIDEmpty
 	}
 	if r.Name == "" {
 		return ErrCategoryNameEmpty
@@ -25,15 +25,15 @@ func UpdateCategoryValidate(r *UpdateCategoryRequest) error {
 }
 
 func DeleteCategoryValidate(r *DeleteCategoryRequest) error {
-	if r.Id == 0 {
-		return ErrCategoryIdEmpty
+	if r.ID == 0 {
+		return ErrCategoryIDEmpty
 	}
 	return nil
 }
 
-func FindByIdCategoryValidate(r *FindByIdCategoryRequest) error {
-	if r.Id == 0 {
-		return ErrCategoryIdEmpty
+func FindByIDCategoryValidate(r *FindByIDCategoryRequest) error {
+	if r.ID == 0 {
+		return ErrCategoryIDEmpty
 	}
 	return nil
 }

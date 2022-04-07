@@ -9,26 +9,26 @@ import (
 
 type Cart struct {
 	gorm.Model
-	Id         int
-	CustomerId int
-	Products   []*product.Product
+	ID         int
+	CustomerID int                `gorm:"foreignkey:CustomerID"`
+	Products   []*product.Product `gorm:"many2many:cart_products"`
 	TotalPrice float64
 	CreatedAt  time.Time `gorm:"<-:create"`
 }
 
-func CreateCart(r Repository, cart *Cart) error {
+func Create(r Repository, cart *Cart) error {
 	return r.Create(cart)
 }
 
-func UpdateCart(r Repository, cart *Cart) error {
+func Update(r Repository, cart *Cart) error {
 	return r.Update(cart)
 }
 
-func DeleteCart(r Repository, id int) error {
+func Delete(r Repository, id int) error {
 	return r.Delete(id)
 }
 
-func FindByIdCart(r Repository, id int) (*Cart, error) {
-	cart, err := r.FindById(id)
+func FindByID(r Repository, id int) (*Cart, error) {
+	cart, err := r.FindByID(id)
 	return cart, err
 }

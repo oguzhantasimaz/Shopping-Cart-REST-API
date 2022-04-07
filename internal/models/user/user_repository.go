@@ -1,10 +1,10 @@
 package user
 
 type Repository interface {
-	Migration()
+	Migration() error
 	Create(user *User) error
 	Update(user *User) error
 	Delete(id int) error
-	FindById(id int) (*User, error)
+	FindByID(id int) (*User, error)
 	FindAll() ([]*User, error)
 }

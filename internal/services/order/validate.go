@@ -1,16 +1,16 @@
 package order_service
 
 func CreateOrderValidate(r *CreateOrderRequest) error {
-	if r.CustomerId <= 0 {
-		return ErrInvalidCustomerId
+	if r.CustomerID <= 0 {
+		return ErrInvalidCustomerID
 	}
 	if r.Products == nil || len(r.Products) == 0 {
 		return ErrInvalidProducts
 	}
 	if r.Products != nil {
 		for _, p := range r.Products {
-			if p.Id <= 0 {
-				return ErrInvalidProductId
+			if p.ID <= 0 {
+				return ErrInvalidProductID
 			}
 			if p.Quantity <= 0 {
 				return ErrInvalidQuantity
@@ -24,19 +24,19 @@ func CreateOrderValidate(r *CreateOrderRequest) error {
 }
 
 func UpdateOrderValidate(r *UpdateOrderRequest) error {
-	if r.Id <= 0 {
-		return ErrInvalidOrderId
+	if r.ID <= 0 {
+		return ErrInvalidOrderID
 	}
-	if r.CustomerId <= 0 {
-		return ErrInvalidCustomerId
+	if r.CustomerID <= 0 {
+		return ErrInvalidCustomerID
 	}
 	if r.Products == nil || len(r.Products) == 0 {
 		return ErrInvalidProducts
 	}
 	if r.Products != nil {
 		for _, p := range r.Products {
-			if p.Id <= 0 {
-				return ErrInvalidProductId
+			if p.ID <= 0 {
+				return ErrInvalidProductID
 			}
 			if p.Quantity <= 0 {
 				return ErrInvalidQuantity
@@ -50,22 +50,22 @@ func UpdateOrderValidate(r *UpdateOrderRequest) error {
 }
 
 func DeleteOrderValidate(r *DeleteOrderRequest) error {
-	if r.Id <= 0 {
-		return ErrInvalidOrderId
+	if r.ID <= 0 {
+		return ErrInvalidOrderID
 	}
 	return nil
 }
 
-func FindByIdValidate(r *FindByIdRequest) error {
-	if r.Id <= 0 {
-		return ErrInvalidOrderId
+func FindByIDValidate(r *FindByIDRequest) error {
+	if r.ID <= 0 {
+		return ErrInvalidOrderID
 	}
 	return nil
 }
 
-func FindAllByCustomerIdValidate(r *FindAllByCustomerIdRequest) error {
-	if r.CustomerId <= 0 {
-		return ErrInvalidCustomerId
+func FindAllByCustomerIDValidate(r *FindAllByCustomerIDRequest) error {
+	if r.CustomerID <= 0 {
+		return ErrInvalidCustomerID
 	}
 	return nil
 }

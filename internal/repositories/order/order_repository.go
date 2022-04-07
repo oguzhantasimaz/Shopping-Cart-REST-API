@@ -13,7 +13,7 @@ func NewOrderRepository(db *gorm.DB) *orderRepository {
 	return &orderRepository{db: db}
 }
 
-func (r *orderRepository) Migrate() error {
+func (r *orderRepository) Migration() error {
 	err := r.db.Migrator().DropTable(&order.Order{})
 	if err != nil {
 		return err
@@ -29,16 +29,16 @@ func (r *orderRepository) Create(o *order.Order) error {
 	return r.db.Create(o).Error
 }
 
-func (r *orderRepository) FindAllByCustomerID(customerID int) ([]order.Order, error) {
+func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, error) {
 	var orders []order.Order
 	err := r.db.Where("customer_id = ?", customerID).Find(&orders).Error
 	if err != nil {
 		return nil, err
 	}
-	return orders, nil
+	return &orders, nil
 }
 
-func (r *orderRepository) FindById(id int) (*order.Order, error) {
+func (r *orderRepository) FindByID(id int) (*order.Order, error) {
 	o := new(order.Order)
 	err := r.db.Where("id = ?", id).First(o).Error
 	if err != nil {

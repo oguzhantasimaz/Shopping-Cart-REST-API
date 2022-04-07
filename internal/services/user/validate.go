@@ -11,8 +11,8 @@ func CreateUserValidate(r CreateUserRequest) error {
 }
 
 func UpdateUserValidate(r UpdateUserRequest) error {
-	if r.Id <= 0 {
-		return ErrUserIdRequired
+	if r.ID <= 0 {
+		return ErrUserIDRequired
 	}
 	if r.Username == "" {
 		return ErrUserNameRequired
@@ -24,15 +24,15 @@ func UpdateUserValidate(r UpdateUserRequest) error {
 }
 
 func DeleteUserValidate(r DeleteUserRequest) error {
-	if r.Id <= 0 {
-		return ErrUserIdRequired
+	if r.ID <= 0 {
+		return ErrUserIDRequired
 	}
 	return nil
 }
 
-func FindUserByIdValidate(r FindUserByIdRequest) error {
-	if r.Id <= 0 {
-		return ErrUserIdRequired
+func FindUserByIDValidate(r FindUserByIDRequest) error {
+	if r.ID <= 0 {
+		return ErrUserIDRequired
 	}
 	return nil
 }

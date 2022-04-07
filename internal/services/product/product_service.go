@@ -31,7 +31,7 @@ func (s *ProductService) Update(req *UpdateProductRequest) error {
 		return err
 	}
 	productToUpdate := &product.Product{
-		Id:        req.Id,
+		ID:        req.ID,
 		Name:      req.Name,
 		SKU:       req.SKU,
 		UnitPrice: req.UnitPrice,
@@ -46,13 +46,13 @@ func (s *ProductService) Delete(req *DeleteProductRequest) error {
 	if err != nil {
 		return err
 	}
-	return product.Delete(s.repository, req.Id)
+	return product.Delete(s.repository, req.ID)
 }
 
-func (s *ProductService) FindById(req *FindProductByIdRequest) (*product.Product, error) {
-	err := FindProductByIdValidate(req)
+func (s *ProductService) FindByID(req *FindProductByIDRequest) (*product.Product, error) {
+	err := FindProductByIDValidate(req)
 	if err != nil {
 		return nil, err
 	}
-	return product.FindById(s.repository, req.Id)
+	return product.FindByID(s.repository, req.ID)
 }

@@ -1,9 +1,9 @@
 package cart
 
 type Repository interface {
-	Migration()
+	Migration() error
 	Create(cart *Cart) error
 	Update(cart *Cart) error
 	Delete(id int) error
-	FindById(id int) (*Cart, error)
+	FindByID(id int) (*Cart, error)
 }

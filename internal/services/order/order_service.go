@@ -11,7 +11,7 @@ func NewOrderService(repository order.Repository) *OrderService {
 }
 
 func (s *OrderService) Create(req *CreateOrderRequest) error {
-	err := CreateOrderValidate(req);
+	err := CreateOrderValidate(req)
 	if err != nil {
 		return err
 	}
@@ -20,7 +20,7 @@ func (s *OrderService) Create(req *CreateOrderRequest) error {
 		totalPrice += product.UnitPrice * float64(product.Quantity)
 	}
 	newOrder := &order.Order{
-		CustomerId: req.CustomerId,
+		CustomerID: req.CustomerID,
 		Products:   req.Products,
 		TotalPrice: totalPrice,
 		Active:     true,
@@ -29,7 +29,7 @@ func (s *OrderService) Create(req *CreateOrderRequest) error {
 }
 
 func (s *OrderService) Update(req *UpdateOrderRequest) error {
-	err := UpdateOrderValidate(req);
+	err := UpdateOrderValidate(req)
 	if err != nil {
 		return err
 	}
@@ -38,8 +38,8 @@ func (s *OrderService) Update(req *UpdateOrderRequest) error {
 		totalPrice += product.UnitPrice * float64(product.Quantity)
 	}
 	updatedOrder := &order.Order{
-		Id:         req.Id,
-		CustomerId: req.CustomerId,
+		ID:         req.ID,
+		CustomerID: req.CustomerID,
 		Products:   req.Products,
 		TotalPrice: totalPrice,
 		Active:     true,
@@ -49,25 +49,25 @@ func (s *OrderService) Update(req *UpdateOrderRequest) error {
 }
 
 func (s *OrderService) Delete(req *DeleteOrderRequest) error {
-	err := DeleteOrderValidate(req);
+	err := DeleteOrderValidate(req)
 	if err != nil {
 		return err
 	}
-	return order.Delete(s.repository, req.Id)
+	return order.Delete(s.repository, req.ID)
 }
 
-func (s *OrderService) FindById(req *FindByIdRequest) (*order.Order, error) {
-	err := FindByIdValidate(req);
+func (s *OrderService) FindByID(req *FindByIDRequest) (*order.Order, error) {
+	err := FindByIDValidate(req)
 	if err != nil {
 		return nil, err
 	}
-	return order.FindById(s.repository, req.Id)
+	return order.FindByID(s.repository, req.ID)
 }
 
-func (s *OrderService) FindAllByCustomerId(req *FindAllByCustomerIdRequest) ([]*order.Order, error) {
-	err := FindAllByCustomerIdValidate(req);
+func (s *OrderService) FindAllByCustomerID(req *FindAllByCustomerIDRequest) (*[]order.Order, error) {
+	err := FindAllByCustomerIDValidate(req)
 	if err != nil {
 		return nil, err
 	}
-	return order.FindAllByCustomerId(s.repository, req.CustomerId)
+	return order.FindAllByCustomerID(s.repository, req.CustomerID)
 }

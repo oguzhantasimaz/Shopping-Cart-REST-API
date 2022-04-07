@@ -9,9 +9,9 @@ import (
 
 type Order struct {
 	gorm.Model
-	Id         int
-	CustomerId int
-	Products   []*product.Product
+	ID         int
+	CustomerID int                `gorm:"foreignkey:CustomerID"`
+	Products   []*product.Product `gorm:"many2many:order_products"`
 	TotalPrice float64
 	Active     bool
 	CreatedAt  time.Time `gorm:"<-:create"`
@@ -21,12 +21,12 @@ func Create(r Repository, order *Order) error {
 	return r.Create(order)
 }
 
-func FindAllByCustomerId(r Repository, customerId int) ([]*Order, error) {
-	return r.FindAllByCustomerId(customerId)
+func FindAllByCustomerID(r Repository, customerID int) (*[]Order, error) {
+	return r.FindAllByCustomerID(customerID)
 }
 
-func FindById(r Repository, id int) (*Order, error) {
-	return r.FindById(id)
+func FindByID(r Repository, id int) (*Order, error) {
+	return r.FindByID(id)
 }
 
 func Update(r Repository, order *Order) error {

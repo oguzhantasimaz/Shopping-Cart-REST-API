@@ -2,6 +2,13 @@ package main
 
 import (
 	"fmt"
+	cart_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/cart"
+	product_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/product"
+	cart_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/cart"
+	category_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/category"
+	order_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/order"
+	product_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/product"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/pkg/database_handler"
 	"log"
 	"net/http"
 	"time"
@@ -15,12 +22,49 @@ func main() {
 	r := gin.Default()
 	registerMiddlewares(r)
 
-	//db := database_handler.NewMySQLDB("root:Ot123456@tcp(127.0.0.1:3306)/shopping?charset=utf8mb4&parseTime=True&loc=Local")
+	db := database_handler.NewMySQLDB("root:Ot123456@tcp(127.0.0.1:3306)/shopping?charset=utf8mb4&parseTime=True&loc=Local")
+
+	cartRepo := cart_repository.NewCartRepository(db)
+	categoryRepo := category_repository.NewCategoryRepository(db)
+	orderRepo := order_repository.NewOrderRepository(db)
+	productRepo := product_repository.NewProductRepository(db)
+	//userRepo := user_repository.NewUserRepository(db)
+
+	if cartRepo.Migration() != nil {
+		log.Fatal("Cart Migration failed")
+	}
+	if categoryRepo.Migration() != nil {
+		log.Fatal("Category Migration failed")
+	}
+	if orderRepo.Migration() != nil {
+		log.Fatal("Order Migration failed")
+	}
+	if productRepo.Migration() != nil {
+		log.Fatal("Product Migration failed")
+	}
+	//if userRepo.Migration() != nil {
+	//	log.Fatal("User Migration failed")
+	//}
+
+	cartCtrl := cart_controller.NewCartController(cartRepo)
+	//categoryCtrl := category_controller.NewCategoryController(categoryRepo)
+	//orderCtrl := order_controller.NewOrderController(orderRepo)
+	productCtrl := product_controller.NewProductController(productRepo)
+	//userCtrl := user_controller.NewUserController(userRepo)
 
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: r,
 	}
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	r.POST("/cart/create", cartCtrl.CreateCart)
+	r.POST("/product/create", productCtrl.CreateProduct)
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {

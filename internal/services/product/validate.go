@@ -22,7 +22,7 @@ func CreateProductValidate(r *CreateProductRequest) error {
 }
 
 func UpdateProductValidate(r *UpdateProductRequest) error {
-	if r.Id == 0 {
+	if r.ID == 0 {
 		return ErrProductIDEmpty
 	}
 	if r.Name == "" {
@@ -44,14 +44,14 @@ func UpdateProductValidate(r *UpdateProductRequest) error {
 }
 
 func DeleteProductValidate(r *DeleteProductRequest) error {
-	if r.Id == 0 {
+	if r.ID == 0 {
 		return ErrProductIDEmpty
 	}
 	return nil
 }
 
-func FindProductByIdValidate(r *FindProductByIdRequest) error {
-	if r.Id == 0 {
+func FindProductByIDValidate(r *FindProductByIDRequest) error {
+	if r.ID == 0 {
 		return ErrProductIDEmpty
 	}
 	return nil
