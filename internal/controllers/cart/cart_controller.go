@@ -34,7 +34,7 @@ func (c *CartController) CreateCart(gc *gin.Context) {
 		})
 		return
 	}
-	gc.JSON(200, gin.H{
+	gc.JSON(201, gin.H{
 		"message": "Cart created successfully",
 	})
 }
