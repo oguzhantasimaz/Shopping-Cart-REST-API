@@ -31,7 +31,7 @@ func (c *CategoryController) CreateCategory(gc *gin.Context) {
 	gc.JSON(201, gin.H{"message": "Category created successfully"})
 }
 
-func (c *CategoryController) CreateBulkCategory(gc *gin.Context) {
+func (c *CategoryController) CreateCategories(gc *gin.Context) {
 	request := new(category_service.CreateCategoryBulkedRequest)
 	if err := gc.Bind(request); err != nil {
 		gc.JSON(400, gin.H{"error": err.Error()})
@@ -45,7 +45,7 @@ func (c *CategoryController) CreateBulkCategory(gc *gin.Context) {
 	gc.JSON(201, gin.H{"message": "Categories created successfully"})
 }
 
-func (c *CategoryController) FindAllCategories(gc *gin.Context) {
+func (c *CategoryController) GetAllCategories(gc *gin.Context) {
 	categories, err := c.service.FindAll()
 	if err != nil {
 		gc.JSON(400, gin.H{"error": err.Error()})
@@ -54,7 +54,7 @@ func (c *CategoryController) FindAllCategories(gc *gin.Context) {
 	gc.JSON(200, categories)
 }
 
-func (c *CategoryController) FindCategory(gc *gin.Context) {
+func (c *CategoryController) GetCategory(gc *gin.Context) {
 	request := new(category_service.FindByIDCategoryRequest)
 	id := gc.Param("id")
 	var err error

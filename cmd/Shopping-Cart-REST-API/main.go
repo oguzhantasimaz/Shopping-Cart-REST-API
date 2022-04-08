@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	cart_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/cart"
+	category_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/category"
+	order_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/order"
 	product_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/product"
 	cart_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/cart"
 	category_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/category"
@@ -47,8 +49,8 @@ func main() {
 	//}
 
 	cartCtrl := cart_controller.NewCartController(cartRepo)
-	//categoryCtrl := category_controller.NewCategoryController(categoryRepo)
-	//orderCtrl := order_controller.NewOrderController(orderRepo)
+	categoryCtrl := category_controller.NewCategoryController(categoryRepo)
+	orderCtrl := order_controller.NewOrderController(orderRepo)
 	productCtrl := product_controller.NewProductController(productRepo)
 	//userCtrl := user_controller.NewUserController(userRepo)
 
@@ -64,15 +66,33 @@ func main() {
 	})
 
 	//cart routes
-	r.GET("/cart/get/:id", cartCtrl.FindByIdCart)
+	r.GET("/cart/get/:id", cartCtrl.GetCart)
 	r.POST("/cart/create", cartCtrl.CreateCart)
 	r.PUT("/cart/update/:id", cartCtrl.UpdateCart)
 	r.DELETE("/cart/delete/:id", cartCtrl.DeleteCart)
 
 	//category routes
+	r.GET("/category/get/:id", categoryCtrl.GetCategory)
+	r.GET("/category/get", categoryCtrl.GetAllCategories)
+	r.POST("/category/create", categoryCtrl.CreateCategory)
+	r.POST("/category/create/bulk", categoryCtrl.CreateCategories)
+	r.PUT("/category/update/:id", categoryCtrl.UpdateCategory)
+	r.DELETE("/category/delete/:id", categoryCtrl.DeleteCategory)
 
 	//product routes
+	r.GET("/product/get/:id", productCtrl.GetProduct)
 	r.POST("/product/create", productCtrl.CreateProduct)
+	r.PUT("/product/update/:id", productCtrl.UpdateProduct)
+	r.DELETE("/product/delete/:id", productCtrl.DeleteProduct)
+
+	//order routes
+	r.GET("/order/get/:id", orderCtrl.GetOrder)
+	r.GET("/order/get/:customerID", orderCtrl.GetOrdersByCustomerID)
+	r.POST("/order/create", orderCtrl.CreateOrder)
+	r.PUT("/order/update/:id", orderCtrl.UpdateOrder)
+	r.DELETE("/order/delete/:id", orderCtrl.DeleteOrder)
+
+	//user routes
 
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {

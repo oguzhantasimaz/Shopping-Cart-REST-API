@@ -20,14 +20,11 @@ func NewCartController(repository cart.Repository) *CartController {
 
 func (c *CartController) CreateCart(gc *gin.Context) {
 	request := new(cart_service.CreateCartRequest)
-	err := json.NewDecoder(gc.Request.Body).Decode(&request)
-	if err != nil {
-		gc.JSON(400, gin.H{
-			"error": err.Error(),
-		})
+	if err := gc.Bind(request); err != nil {
+		gc.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	err = c.service.Create(request)
+	err := c.service.Create(request)
 	if err != nil {
 		gc.JSON(400, gin.H{
 			"error": err.Error(),
@@ -80,7 +77,7 @@ func (c *CartController) DeleteCart(gc *gin.Context) {
 	err = c.service.Delete(request)
 }
 
-func (c *CartController) FindByIdCart(gc *gin.Context) {
+func (c *CartController) GetCart(gc *gin.Context) {
 	request := new(cart_service.FindByIDRequest)
 	id := gc.Param("id")
 	var err error
