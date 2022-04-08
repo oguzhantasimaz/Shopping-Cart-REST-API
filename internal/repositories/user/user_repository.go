@@ -56,3 +56,16 @@ func (ur *userRepository) FindAll() ([]user.User, error) {
 	}
 	return users, nil
 }
+
+func (ur *userRepository) InsertSampleData() {
+	roles := []string{"admin", "user"}
+	//username = oguzhantasimaz
+	//password = password123
+	user := user.User{
+		Username: "oguzhantasimaz",
+		Salt:     "6241fce458b562ab",
+		Hash:     "921bbc0931d1bd48d87c8ac267cf7dd4fe52589396b0aded3cf0c0cd4cc4319d6f460b331fce7466ca9f8eee55ba42894943e19da713b9973f0e5127a5cfede1",
+		Roles:    roles,
+	}
+	ur.db.Create(&user)
+}

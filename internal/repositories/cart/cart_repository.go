@@ -33,7 +33,7 @@ func (r *cartRepository) Create(cart *cart.Cart) error {
 
 func (r *cartRepository) FindByID(id int) (*cart.Cart, error) {
 	c := new(cart.Cart)
-	err := r.db.First(c, id).Error
+	err := r.db.Preload("Products").First(c, id).Error
 	if err != nil {
 		return nil, err
 	}

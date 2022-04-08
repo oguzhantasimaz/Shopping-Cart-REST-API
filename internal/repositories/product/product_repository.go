@@ -39,7 +39,7 @@ func (r *productRepository) Delete(id int) error {
 
 func (r *productRepository) FindByID(id int) (*product.Product, error) {
 	p := new(product.Product)
-	err := r.db.Where("id = ?", id).First(p).Error
+	err := r.db.Preload("Categories").Where("id = ?", id).First(p).Error
 	if err != nil {
 		return nil, err
 	}

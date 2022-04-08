@@ -31,7 +31,7 @@ func (r *orderRepository) Create(o *order.Order) error {
 
 func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, error) {
 	var orders []order.Order
-	err := r.db.Where("customer_id = ?", customerID).Find(&orders).Error
+	err := r.db.Preload("Products").Where("customer_id = ?", customerID).Find(&orders).Error
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, e
 
 func (r *orderRepository) FindByID(id int) (*order.Order, error) {
 	o := new(order.Order)
-	err := r.db.Where("id = ?", id).First(o).Error
+	err := r.db.Preload("Products").Where("id = ?", id).First(o).Error
 	if err != nil {
 		return nil, err
 	}

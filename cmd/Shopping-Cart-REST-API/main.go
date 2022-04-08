@@ -87,7 +87,7 @@ func main() {
 
 	//order routes
 	r.GET("/order/get/:id", orderCtrl.GetOrder)
-	r.GET("/order/get/:customerID", orderCtrl.GetOrdersByCustomerID)
+	r.GET("/order/get/customer/:customerID", orderCtrl.GetOrdersByCustomerID)
 	r.POST("/order/create", orderCtrl.CreateOrder)
 	r.PUT("/order/update/:id", orderCtrl.UpdateOrder)
 	r.DELETE("/order/delete/:id", orderCtrl.DeleteOrder)
