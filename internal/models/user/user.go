@@ -39,7 +39,7 @@ func GetUser(r Repository, username, password string) (*User, error) {
 	return user, nil
 }
 
-func ValidateUser(r Repository, username string, password string) (string, error) {
+func ValidateUser(r Repository, username string, password string, secretKey string) (string, error) {
 	// find user by username if exists in db check password hash then return accessToken
 	user, err := r.FindByUsername(username)
 	if err != nil {
@@ -50,7 +50,7 @@ func ValidateUser(r Repository, username string, password string) (string, error
 	}
 
 	jwtClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userId":   user.ID,
+		"userID":   user.ID,
 		"username": user.Username,
 		"iat":      time.Now().Unix(),
 		"iss":      os.Getenv("ENV"),
@@ -59,8 +59,7 @@ func ValidateUser(r Repository, username string, password string) (string, error
 		"role": user.Role,
 	})
 
-	//TODO: Read secret key from config
-	accessToken := jwtHelper.GenerateToken(jwtClaims, "OGUZHANTASIMAZSECRETKEY")
+	accessToken := jwtHelper.GenerateToken(jwtClaims, secretKey)
 	return accessToken, nil
 }
 

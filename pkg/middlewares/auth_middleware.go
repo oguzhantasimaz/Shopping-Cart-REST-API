@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -14,12 +15,16 @@ func AuthMiddleware(secretKey string) gin.HandlerFunc {
 		if c.GetHeader("Authorization") != "" {
 			decodedClaims := jwtHelper.VerifyToken(c.GetHeader("Authorization"), secretKey, os.Getenv("ENV"))
 			if decodedClaims != nil {
-				for _, role := range decodedClaims.Role {
-					if role == "admin" {
-						c.Next()
-						c.Abort()
-						return
-					}
+				if decodedClaims.Exp < jwtHelper.GetCurrentTime() {
+					c.JSON(http.StatusUnauthorized, gin.H{"error": "Token is expired"})
+					c.Abort()
+					return
+				}
+				fmt.Println(c.Request.URL.Path)
+				if decodedClaims.Role == "admin" {
+					c.Next()
+					c.Abort()
+					return
 				}
 			}
 

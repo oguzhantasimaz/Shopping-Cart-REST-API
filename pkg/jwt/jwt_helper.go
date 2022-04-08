@@ -2,15 +2,17 @@ package jwt
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 )
 
 type DecodedToken struct {
-	Iat      int      `json:"iat"`
-	Role     []string `json:"role"`
-	UserID   string   `json:"userID"`
-	Username string   `json:"username"`
-	Iss      string   `json:"iss"`
+	UserID   int    `json:"userID"`
+	Username string `json:"username"`
+	Iat      int    `json:"iat"`
+	Exp      int    `json:"exp"`
+	Iss      string `json:"iss"`
+	Role     string `json:"role"`
 }
 
 func GenerateToken(claims *jwt.Token, secret string) (token string) {
@@ -22,6 +24,7 @@ func GenerateToken(claims *jwt.Token, secret string) (token string) {
 }
 
 func VerifyToken(token string, secret string, env string) *DecodedToken {
+	token = token[7:]
 	hmacSecretString := secret
 	hmacSecret := []byte(hmacSecretString)
 
@@ -43,8 +46,12 @@ func VerifyToken(token string, secret string, env string) *DecodedToken {
 	jsonString, _ := json.Marshal(decodedClaims)
 	err = json.Unmarshal(jsonString, &decodedToken)
 	if err != nil {
+		fmt.Println(err)
 		return nil
 	}
-
 	return &decodedToken
+}
+
+func GetCurrentTime() int {
+	return int(jwt.TimeFunc().Unix())
 }

@@ -12,11 +12,11 @@ func NewAuthService(repository user.Repository) *AuthService {
 	return &AuthService{repository: repository}
 }
 
-func (s *AuthService) Authenticate(req *LoginRequest) (string, error) {
+func (s *AuthService) Authenticate(req *LoginRequest, secretKey string) (string, error) {
 	if err := LoginRequestValidate(req); err != nil {
 		return "", err
 	}
-	accessToken, err := user.ValidateUser(s.repository, req.Username, req.Password)
+	accessToken, err := user.ValidateUser(s.repository, req.Username, req.Password, secretKey)
 	if err != nil {
 		return "", err
 	}
