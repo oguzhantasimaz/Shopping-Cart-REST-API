@@ -1,6 +1,7 @@
 package user_repository
 
 import (
+	"fmt"
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/user"
 	"gorm.io/gorm"
 )
@@ -27,6 +28,15 @@ func (ur *userRepository) Migration() error {
 	return nil
 }
 
+func (ur *userRepository) FindByUsername(username string) (*user.User, error) {
+	user := new(user.User)
+	err := ur.db.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
 func (ur *userRepository) Create(user *user.User) error {
 	return ur.db.Create(user).Error
 }
@@ -48,8 +58,8 @@ func (ur *userRepository) Delete(id int) error {
 	return ur.db.Where("id = ?", id).Delete(&user.User{}).Error
 }
 
-func (ur *userRepository) FindAll() ([]user.User, error) {
-	var users []user.User
+func (ur *userRepository) FindAll() (*[]user.User, error) {
+	var users *[]user.User
 	err := ur.db.Find(&users).Error
 	if err != nil {
 		return nil, err
@@ -58,14 +68,14 @@ func (ur *userRepository) FindAll() ([]user.User, error) {
 }
 
 func (ur *userRepository) InsertSampleData() {
-	roles := []string{"admin", "user"}
 	//username = oguzhantasimaz
 	//password = password123
 	user := user.User{
 		Username: "oguzhantasimaz",
 		Salt:     "6241fce458b562ab",
-		Hash:     "921bbc0931d1bd48d87c8ac267cf7dd4fe52589396b0aded3cf0c0cd4cc4319d6f460b331fce7466ca9f8eee55ba42894943e19da713b9973f0e5127a5cfede1",
-		Roles:    roles,
+		Hash:     "3tP4urZxQZAJegTtTz0c7gbIqe-RrH9HJltr8l5xnDnIXu5RUk6XjSL7mZAYjp_dwpWwc9Q2t1esxb9KVyZBuw==",
+		Role:     "admin",
 	}
-	ur.db.Create(&user)
+	err := ur.db.Create(&user)
+	fmt.Errorf("%v", err)
 }

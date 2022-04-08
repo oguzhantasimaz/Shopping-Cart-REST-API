@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/config"
+	auth_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/auth"
 	cart_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/cart"
 	category_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/category"
 	order_controller "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/controllers/order"
@@ -10,6 +12,7 @@ import (
 	category_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/category"
 	order_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/order"
 	product_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/product"
+	user_repository "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/repositories/user"
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/pkg/database_handler"
 	"log"
 	"net/http"
@@ -30,7 +33,7 @@ func main() {
 	categoryRepo := category_repository.NewCategoryRepository(db)
 	orderRepo := order_repository.NewOrderRepository(db)
 	productRepo := product_repository.NewProductRepository(db)
-	//userRepo := user_repository.NewUserRepository(db)
+	userRepo := user_repository.NewUserRepository(db)
 
 	if cartRepo.Migration() != nil {
 		log.Fatal("Cart Migration failed")
@@ -44,14 +47,21 @@ func main() {
 	if productRepo.Migration() != nil {
 		log.Fatal("Product Migration failed")
 	}
-	//if userRepo.Migration() != nil {
-	//	log.Fatal("User Migration failed")
-	//}
+	if userRepo.Migration() != nil {
+		log.Fatal("User Migration failed")
+	}
+
+	userRepo.InsertSampleData()
+	appConfig, err := config.GetAllConfigValues("/Users/oguzhantasimaz/Desktop/Shopping-Cart-REST-API/config/location.qa.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	cartCtrl := cart_controller.NewCartController(cartRepo)
 	categoryCtrl := category_controller.NewCategoryController(categoryRepo)
 	orderCtrl := order_controller.NewOrderController(orderRepo)
 	productCtrl := product_controller.NewProductController(productRepo)
+	authCtrl := auth_controller.NewAuthController(appConfig, userRepo)
 	//userCtrl := user_controller.NewUserController(userRepo)
 
 	srv := &http.Server{
@@ -64,6 +74,10 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	fmt.Println(appConfig.SecretKey)
+	//auth routes
+	r.POST("/login", authCtrl.Login)
 
 	//cart routes
 	r.GET("/cart/get/:id", cartCtrl.GetCart)
@@ -81,7 +95,7 @@ func main() {
 
 	//product routes
 	r.GET("/product/get/:id", productCtrl.GetProduct)
-	r.POST("/product/create", productCtrl.CreateProduct)
+	r.POST("/product/create", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.CreateProduct)
 	r.PUT("/product/update/:id", productCtrl.UpdateProduct)
 	r.DELETE("/product/delete/:id", productCtrl.DeleteProduct)
 

@@ -11,4 +11,4 @@ NewRelicSettings:
   AppName: "YOUR_PROD_APP_NAME"
 
 JwtSettings:
-  SecretKey: "MY_PROD_SECRET_KEY"
+  SecretKey: "OGUZHANTASIMAZSECRETKEY"

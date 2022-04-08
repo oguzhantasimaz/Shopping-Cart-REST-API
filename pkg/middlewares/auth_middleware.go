@@ -14,7 +14,7 @@ func AuthMiddleware(secretKey string) gin.HandlerFunc {
 		if c.GetHeader("Authorization") != "" {
 			decodedClaims := jwtHelper.VerifyToken(c.GetHeader("Authorization"), secretKey, os.Getenv("ENV"))
 			if decodedClaims != nil {
-				for _, role := range decodedClaims.Roles {
+				for _, role := range decodedClaims.Role {
 					if role == "admin" {
 						c.Next()
 						c.Abort()

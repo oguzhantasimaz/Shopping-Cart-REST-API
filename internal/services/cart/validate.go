@@ -15,6 +15,9 @@ func CreateCartValidate(r *CreateCartRequest) error {
 			if product.Quantity <= 0 {
 				return ErrProductQuantityRequired
 			}
+			if product.UnitPrice <= 0 {
+				return ErrProductUnitPriceRequired
+			}
 		}
 	}
 	return nil

@@ -6,5 +6,6 @@ type Repository interface {
 	Update(user *User) error
 	Delete(id int) error
 	FindByID(id int) (*User, error)
-	FindAll() ([]*User, error)
+	FindAll() (*[]User, error)
+	FindByUsername(username string) (*User, error)
 }
