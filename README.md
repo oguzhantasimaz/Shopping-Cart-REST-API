@@ -9,4 +9,6 @@ TODO:
 - Create Bulk Category with CSV
 - Pagination
 - Logout Endpoint
-- Add Admin Privilege for certain endpoints
+- Add query params to get all categories
+- Add query params to get all products
+- DONE Add Admin Privilege for certain endpoints 

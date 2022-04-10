@@ -75,7 +75,6 @@ func main() {
 		})
 	})
 
-	fmt.Println(appConfig.SecretKey)
 	//auth routes
 	r.POST("/login", authCtrl.Login)
 
@@ -88,16 +87,16 @@ func main() {
 	//category routes
 	r.GET("/category/get/:id", categoryCtrl.GetCategory)
 	r.GET("/category/get", categoryCtrl.GetAllCategories)
-	r.POST("/category/create", categoryCtrl.CreateCategory)
-	r.POST("/category/create/bulk", categoryCtrl.CreateCategories)
-	r.PUT("/category/update/:id", categoryCtrl.UpdateCategory)
-	r.DELETE("/category/delete/:id", categoryCtrl.DeleteCategory)
+	r.POST("/category/create", middleware.AuthMiddleware(appConfig.SecretKey), categoryCtrl.CreateCategory)
+	r.POST("/category/create/bulk", middleware.AuthMiddleware(appConfig.SecretKey), categoryCtrl.CreateCategories)
+	r.PUT("/category/update/:id", middleware.AuthMiddleware(appConfig.SecretKey), categoryCtrl.UpdateCategory)
+	r.DELETE("/category/delete/:id", middleware.AuthMiddleware(appConfig.SecretKey), categoryCtrl.DeleteCategory)
 
 	//product routes
 	r.GET("/product/get/:id", productCtrl.GetProduct)
 	r.POST("/product/create", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.CreateProduct)
-	r.PUT("/product/update/:id", productCtrl.UpdateProduct)
-	r.DELETE("/product/delete/:id", productCtrl.DeleteProduct)
+	r.PUT("/product/update/:id", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.UpdateProduct)
+	r.DELETE("/product/delete/:id", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.DeleteProduct)
 
 	//order routes
 	r.GET("/order/get/:id", orderCtrl.GetOrder)
