@@ -1,10 +1,13 @@
 package order
 
 import (
+	"sync"
 	"time"
 
 	"gorm.io/gorm"
 )
+
+var mutex = &sync.Mutex{}
 
 type Order struct {
 	gorm.Model
@@ -37,9 +40,13 @@ func FindByID(r Repository, id int) (*Order, error) {
 }
 
 func Update(r Repository, order *Order) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	return r.Update(order)
 }
 
 func Delete(r Repository, id int) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	return r.Delete(id)
 }

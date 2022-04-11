@@ -11,7 +11,7 @@ type CreateProductRequest struct {
 type UpdateProductRequest struct {
 	ID         int     `json:"id"`
 	Name       string  `json:"name"`
-	SKU        string  `json:"description"`
+	SKU        string  `json:"SKU"`
 	UnitPrice  float64 `json:"unit_price"`
 	Stock      int     `json:"stock"`
 	CategoryID int     `json:"category_id"`

@@ -1,11 +1,14 @@
 package cart
 
 import (
+	"sync"
 	"time"
 
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
 	"gorm.io/gorm"
 )
+
+var mutex = &sync.Mutex{}
 
 type Cart struct {
 	gorm.Model
@@ -17,14 +20,20 @@ type Cart struct {
 }
 
 func Create(r Repository, cart *Cart) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	return r.Create(cart)
 }
 
 func Update(r Repository, cart *Cart) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	return r.Update(cart)
 }
 
 func Delete(r Repository, id int) error {
+	mutex.Lock()
+	defer mutex.Unlock()
 	return r.Delete(id)
 }
 
