@@ -24,10 +24,15 @@ import (
 )
 
 func main() {
+	appConfig, err := config.GetAllConfigValues("/Users/oguzhantasimaz/Desktop/Shopping-Cart-REST-API/config/location.qa.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	r := gin.Default()
 	registerMiddlewares(r)
 
-	db := database_handler.NewMySQLDB("root:Ot123456@tcp(127.0.0.1:3306)/shopping?charset=utf8mb4&parseTime=True&loc=Local")
+	db := database_handler.NewMySQLDB(appConfig.DatabaseURI)
 
 	cartRepo := cart_repository.NewCartRepository(db)
 	categoryRepo := category_repository.NewCategoryRepository(db)
@@ -52,10 +57,6 @@ func main() {
 	}
 
 	userRepo.InsertSampleData()
-	appConfig, err := config.GetAllConfigValues("/Users/oguzhantasimaz/Desktop/Shopping-Cart-REST-API/config/location.qa.yaml")
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	cartCtrl := cart_controller.NewCartController(cartRepo)
 	categoryCtrl := category_controller.NewCategoryController(categoryRepo)

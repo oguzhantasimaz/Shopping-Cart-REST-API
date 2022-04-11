@@ -1,7 +1,7 @@
 Env: "dev"
 
 DatabaseSettings:
-  DatabaseURI: "root:Ot123456@tcp(127.0.0.1:3306)/location?parseTime=True&loc=Local"
+  DatabaseURI: "root:Ot123456@tcp(127.0.0.1:3306)/shopping?charset=utf8mb4&parseTime=True&loc=Local"
   DatabaseName: "location"
   Username: "root"
   Password: "Ot123456"
