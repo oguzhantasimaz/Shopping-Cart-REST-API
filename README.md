@@ -29,15 +29,17 @@ I tried to implement clean architecture and code in a way that it is easy to und
 
 
 ## TODO:
+- [ ] Fix known bugs
+- [ ] Heroku deployment
+- [ ] GithubActions (CI/CD) for deployment
 - [ ] Swagger Integration
 - [ ] Unit Tests
 - [ ] Integration Tests
 - [ ] Create Bulk Category with CSV
 - [ ] Pagination
+- [ ] Add query params to get all products' endpoint for filtering
 - [x] Signup Endpoint
 - [x] Logout Endpoint
 - [x] Cancel order 
-- [ ] Add query params to get all products' endpoint for filtering
 - [x] Add User Authentication for certain endpoints
 - [x] Add Admin Privilege for certain endpoints 
-- [ ] Fix known bugs
