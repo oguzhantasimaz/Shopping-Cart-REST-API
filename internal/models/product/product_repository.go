@@ -6,4 +6,5 @@ type Repository interface {
 	Update(product *Product) error
 	Delete(id int) error
 	FindByID(id int) (*Product, error)
+	FindAll() ([]*Product, error)
 }

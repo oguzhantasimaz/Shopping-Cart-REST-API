@@ -1,13 +1,18 @@
 package product_service
 
-import "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
+import (
+	"fmt"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/category"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
+)
 
 type ProductService struct {
-	repository product.Repository
+	repository   product.Repository
+	categoryRepo category.Repository
 }
 
-func NewProductService(repository product.Repository) *ProductService {
-	return &ProductService{repository: repository}
+func NewProductService(repository product.Repository, catRepo category.Repository) *ProductService {
+	return &ProductService{repository: repository, categoryRepo: catRepo}
 }
 
 func (s *ProductService) Create(req *CreateProductRequest) error {
@@ -15,12 +20,20 @@ func (s *ProductService) Create(req *CreateProductRequest) error {
 	if err != nil {
 		return err
 	}
+
+	cat, catError := category.FindByID(s.categoryRepo, req.CategoryID)
+	if catError != nil {
+		return catError
+	}
+	if cat == nil {
+		return fmt.Errorf("category not found")
+	}
 	newProduct := &product.Product{
-		Name:      req.Name,
-		SKU:       req.SKU,
-		UnitPrice: req.UnitPrice,
-		Quantity:  req.Quantity,
-		Category:  req.Category,
+		Name:       req.Name,
+		SKU:        req.SKU,
+		UnitPrice:  req.UnitPrice,
+		Stock:      req.Stock,
+		CategoryID: req.CategoryID,
 	}
 	return product.Create(s.repository, newProduct)
 }
@@ -31,12 +44,12 @@ func (s *ProductService) Update(req *UpdateProductRequest) error {
 		return err
 	}
 	productToUpdate := &product.Product{
-		ID:        req.ID,
-		Name:      req.Name,
-		SKU:       req.SKU,
-		UnitPrice: req.UnitPrice,
-		Quantity:  req.Quantity,
-		Category:  req.Category,
+		ID:         req.ID,
+		Name:       req.Name,
+		SKU:        req.SKU,
+		UnitPrice:  req.UnitPrice,
+		Stock:      req.Stock,
+		CategoryID: req.CategoryID,
 	}
 	return product.Update(s.repository, productToUpdate)
 }
@@ -55,4 +68,8 @@ func (s *ProductService) FindByID(req *FindProductByIDRequest) (*product.Product
 		return nil, err
 	}
 	return product.FindByID(s.repository, req.ID)
+}
+
+func (s *ProductService) FindAll() ([]*product.Product, error) {
+	return product.FindAll(s.repository)
 }

@@ -4,19 +4,16 @@ func CreateOrderValidate(r *CreateOrderRequest) error {
 	if r.CustomerID <= 0 {
 		return ErrInvalidCustomerID
 	}
-	if r.Products == nil || len(r.Products) == 0 {
+	if r.OrderProducts == nil || len(r.OrderProducts) == 0 {
 		return ErrInvalidProducts
 	}
-	if r.Products != nil {
-		for _, p := range r.Products {
-			if p.ID <= 0 {
-				return ErrInvalidProductID
-			}
+	if r.OrderProducts != nil {
+		for _, p := range r.OrderProducts {
 			if p.Quantity <= 0 {
 				return ErrInvalidQuantity
 			}
-			if p.UnitPrice <= 0 {
-				return ErrInvalidUnitPrice
+			if p.ProductID <= 0 {
+				return ErrInvalidProductID
 			}
 		}
 	}
@@ -30,19 +27,16 @@ func UpdateOrderValidate(r *UpdateOrderRequest) error {
 	if r.CustomerID <= 0 {
 		return ErrInvalidCustomerID
 	}
-	if r.Products == nil || len(r.Products) == 0 {
+	if r.OrderProducts == nil || len(r.OrderProducts) == 0 {
 		return ErrInvalidProducts
 	}
-	if r.Products != nil {
-		for _, p := range r.Products {
-			if p.ID <= 0 {
-				return ErrInvalidProductID
-			}
+	if r.OrderProducts != nil {
+		for _, p := range r.OrderProducts {
 			if p.Quantity <= 0 {
 				return ErrInvalidQuantity
 			}
-			if p.UnitPrice <= 0 {
-				return ErrInvalidUnitPrice
+			if p.ProductID <= 0 {
+				return ErrInvalidProductID
 			}
 		}
 	}

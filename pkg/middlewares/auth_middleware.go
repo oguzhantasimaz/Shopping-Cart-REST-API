@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
@@ -20,7 +19,18 @@ func AuthMiddleware(secretKey string) gin.HandlerFunc {
 					c.Abort()
 					return
 				}
-				fmt.Println(c.Request.URL.Path)
+				//if path is cart or order check if user is logged in
+				if c.Request.URL.Path == "/cart" || c.Request.URL.Path == "/order" {
+					if decodedClaims.Role == "admin" || decodedClaims.Role == "user" {
+						c.Next()
+						c.Abort()
+						return
+					} else {
+						c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not logged in"})
+						c.Abort()
+						return
+					}
+				}
 				if decodedClaims.Role == "admin" {
 					c.Next()
 					c.Abort()

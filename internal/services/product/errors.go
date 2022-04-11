@@ -9,4 +9,5 @@ var (
 	ErrProductQuantityInvalid = errors.New("product quantity is invalid")
 	ErrProductCategoryEmpty   = errors.New("product category is empty")
 	ErrProductIDEmpty         = errors.New("product id is empty")
+	ErrProductCategoryInvalid = errors.New("product category is invalid")
 )

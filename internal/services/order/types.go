@@ -1,10 +1,12 @@
 package order_service
 
-import "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
+import (
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/order"
+)
 
 type CreateOrderRequest struct {
-	CustomerID int                `json:"customer_id"`
-	Products   []*product.Product `json:"products"`
+	CustomerID    int                   `json:"customer_id"`
+	OrderProducts []*order.OrderProduct `json:"order_products"`
 }
 
 type FindByIDRequest struct {
@@ -12,9 +14,9 @@ type FindByIDRequest struct {
 }
 
 type UpdateOrderRequest struct {
-	ID         int                `json:"id"`
-	CustomerID int                `json:"customer_id"`
-	Products   []*product.Product `json:"products"`
+	ID            int                   `json:"id"`
+	CustomerID    int                   `json:"customer_id"`
+	OrderProducts []*order.OrderProduct `json:"order_products"`
 }
 
 type DeleteOrderRequest struct {

@@ -3,18 +3,25 @@ package order
 import (
 	"time"
 
-	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
 	"gorm.io/gorm"
 )
 
 type Order struct {
 	gorm.Model
-	ID         int
-	CustomerID int                `gorm:"foreignkey:CustomerID"`
-	Products   []*product.Product `gorm:"many2many:order_products"`
-	TotalPrice float64
-	Active     bool
-	CreatedAt  time.Time `gorm:"<-:create"`
+	ID            int
+	CustomerID    int             `gorm:"foreignKey:CustomerID"`
+	OrderProducts []*OrderProduct `gorm:"foreignKey:OrderID"`
+	TotalPrice    float64
+	Active        bool
+	CreatedAt     time.Time `gorm:"<-:create"`
+}
+
+type OrderProduct struct {
+	gorm.Model
+	OrderID   int `gorm:"foreignKey:OrderID"`
+	ProductID int `gorm:"foreignKey:ProductID"`
+	Quantity  int
+	CreatedAt time.Time `gorm:"<-:create"`
 }
 
 func Create(r Repository, order *Order) error {

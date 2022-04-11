@@ -63,6 +63,41 @@ func ValidateUser(r Repository, username string, password string, secretKey stri
 	return accessToken, nil
 }
 
+func Logout(r Repository, token string, secretKey string) error {
+	// delete token from db
+	token = "Bearer " + token
+	decToken := jwtHelper.VerifyToken(token, secretKey, os.Getenv("ENV"))
+	if decToken == nil {
+		return errors.New("invalid token")
+	}
+
+	user, err := r.FindByID(decToken.UserID)
+	if err != nil {
+		return errors.New("user not found")
+	}
+	user.Exp = 0
+	user.Iat = 0
+	if err := r.Update(user); err != nil {
+		return err
+	}
+	return nil
+}
+
+func Signup(r Repository, username, password string) error {
+	// create user in db
+	salt := hash.GenerateSalt()
+	user := &User{
+		Username: username,
+		Salt:     salt,
+		Hash:     hash.GenerateHash(password, salt),
+		Role:     "user",
+	}
+	if err := r.Create(user); err != nil {
+		return err
+	}
+	return nil
+}
+
 func Create(r Repository, u *User) error {
 	return r.Create(u)
 }

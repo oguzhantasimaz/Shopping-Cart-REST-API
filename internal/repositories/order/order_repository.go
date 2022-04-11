@@ -1,6 +1,7 @@
 package order_repository
 
 import (
+	"fmt"
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/order"
 	"gorm.io/gorm"
 )
@@ -26,6 +27,7 @@ func (r *orderRepository) Migration() error {
 }
 
 func (r *orderRepository) Create(o *order.Order) error {
+	fmt.Println(o)
 	return r.db.Create(o).Error
 }
 
@@ -40,7 +42,9 @@ func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, e
 
 func (r *orderRepository) FindByID(id int) (*order.Order, error) {
 	o := new(order.Order)
+	// get order by id and associated order products with it
 	err := r.db.Preload("Products").Where("id = ?", id).First(o).Error
+
 	if err != nil {
 		return nil, err
 	}

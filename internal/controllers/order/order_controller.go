@@ -3,6 +3,7 @@ package order_controller
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/order"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
 	order_service "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/services/order"
 	"strconv"
 )
@@ -11,8 +12,8 @@ type OrderController struct {
 	service order_service.OrderService
 }
 
-func NewOrderController(repository order.Repository) *OrderController {
-	return &OrderController{service: *order_service.NewOrderService(repository)}
+func NewOrderController(repository order.Repository, proRepo product.Repository) *OrderController {
+	return &OrderController{service: *order_service.NewOrderService(repository, proRepo)}
 }
 
 func (c *OrderController) CreateOrder(gc *gin.Context) {

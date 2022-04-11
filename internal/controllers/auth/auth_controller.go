@@ -35,3 +35,31 @@ func (c *AuthController) Login(g *gin.Context) {
 	}
 	g.JSON(http.StatusOK, gin.H{"access_token": accessToken})
 }
+
+func (c *AuthController) Logout(g *gin.Context) {
+	request := new(auth_service.LogoutRequest)
+	if err := g.BindJSON(request); err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err := c.service.Logout(request, c.appConfig.SecretKey)
+	if err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	g.JSON(http.StatusOK, gin.H{"message": "Logout successfully"})
+}
+
+func (c *AuthController) Signup(g *gin.Context) {
+	request := new(auth_service.SignupRequest)
+	if err := g.BindJSON(request); err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err := c.service.Signup(request, c.appConfig.SecretKey)
+	if err != nil {
+		g.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	g.JSON(http.StatusOK, gin.H{"message": "Signup successfully"})
+}

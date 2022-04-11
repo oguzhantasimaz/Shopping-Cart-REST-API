@@ -59,8 +59,8 @@ func main() {
 
 	cartCtrl := cart_controller.NewCartController(cartRepo)
 	categoryCtrl := category_controller.NewCategoryController(categoryRepo)
-	orderCtrl := order_controller.NewOrderController(orderRepo)
-	productCtrl := product_controller.NewProductController(productRepo)
+	orderCtrl := order_controller.NewOrderController(orderRepo, productRepo)
+	productCtrl := product_controller.NewProductController(productRepo, categoryRepo)
 	authCtrl := auth_controller.NewAuthController(appConfig, userRepo)
 	//userCtrl := user_controller.NewUserController(userRepo)
 
@@ -77,12 +77,14 @@ func main() {
 
 	//auth routes
 	r.POST("/login", authCtrl.Login)
+	r.POST("/signup", authCtrl.Signup)
+	r.POST("/logout", authCtrl.Logout)
 
 	//cart routes
-	r.GET("/cart/get/:id", cartCtrl.GetCart)
-	r.POST("/cart/create", cartCtrl.CreateCart)
-	r.PUT("/cart/update/:id", cartCtrl.UpdateCart)
-	r.DELETE("/cart/delete/:id", cartCtrl.DeleteCart)
+	r.GET("/cart/get/:id", middleware.AuthMiddleware(appConfig.SecretKey), cartCtrl.GetCart)
+	r.POST("/cart/create", middleware.AuthMiddleware(appConfig.SecretKey), cartCtrl.CreateCart)
+	r.PUT("/cart/update/:id", middleware.AuthMiddleware(appConfig.SecretKey), cartCtrl.UpdateCart)
+	r.DELETE("/cart/delete/:id", middleware.AuthMiddleware(appConfig.SecretKey), cartCtrl.DeleteCart)
 
 	//category routes
 	r.GET("/category/get/:id", categoryCtrl.GetCategory)
@@ -94,16 +96,17 @@ func main() {
 
 	//product routes
 	r.GET("/product/get/:id", productCtrl.GetProduct)
+	r.GET("/product/get", productCtrl.GetProducts)
 	r.POST("/product/create", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.CreateProduct)
 	r.PUT("/product/update/:id", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.UpdateProduct)
 	r.DELETE("/product/delete/:id", middleware.AuthMiddleware(appConfig.SecretKey), productCtrl.DeleteProduct)
 
 	//order routes
-	r.GET("/order/get/:id", orderCtrl.GetOrder)
-	r.GET("/order/get/customer/:customerID", orderCtrl.GetOrdersByCustomerID)
-	r.POST("/order/create", orderCtrl.CreateOrder)
-	r.PUT("/order/update/:id", orderCtrl.UpdateOrder)
-	r.DELETE("/order/delete/:id", orderCtrl.DeleteOrder)
+	r.GET("/order/get/:id", middleware.AuthMiddleware(appConfig.SecretKey), orderCtrl.GetOrder)
+	r.GET("/order/get/customer/:customerID", middleware.AuthMiddleware(appConfig.SecretKey), orderCtrl.GetOrdersByCustomerID)
+	r.POST("/order/create", middleware.AuthMiddleware(appConfig.SecretKey), orderCtrl.CreateOrder)
+	r.PUT("/order/update/:id", middleware.AuthMiddleware(appConfig.SecretKey), orderCtrl.UpdateOrder)
+	r.DELETE("/order/delete/:id", middleware.AuthMiddleware(appConfig.SecretKey), orderCtrl.DeleteOrder)
 
 	//user routes
 

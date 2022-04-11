@@ -12,7 +12,7 @@ func CreateCartValidate(r *CreateCartRequest) error {
 			if product.ID <= 0 {
 				return ErrProductIDRequired
 			}
-			if product.Quantity <= 0 {
+			if product.Stock <= 0 {
 				return ErrProductQuantityRequired
 			}
 			if product.UnitPrice <= 0 {
@@ -38,7 +38,7 @@ func UpdateCartValidate(r *UpdateCartRequest) error {
 			if product.ID <= 0 {
 				return ErrProductIDRequired
 			}
-			if product.Quantity <= 0 {
+			if product.Stock <= 0 {
 				return ErrProductQuantityRequired
 			}
 			if product.UnitPrice <= 0 {

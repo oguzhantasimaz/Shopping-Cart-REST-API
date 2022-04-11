@@ -2,13 +2,15 @@
 Shopping Cart Rest API with Golang
 
 
-TODO: 
-- Swagger
-- Unit Tests
-- Integration Tests
-- Create Bulk Category with CSV
-- Pagination
-- Logout Endpoint
-- Add query params to get all categories
-- Add query params to get all products
-- DONE Add Admin Privilege for certain endpoints 
+TODO:
+- [ ] Swagger Integration
+- [ ] Unit Tests
+- [ ] Integration Tests
+- [ ] Create Bulk Category with CSV
+- [ ] Pagination
+- [ ] Signup Endpoint
+- [x] Logout Endpoint
+- [x] Cancel order 
+- [ ] Add query params to get all products' endpoint for filtering
+- [x] Add User Authentication for certain endpoints
+- [x] Add Admin Privilege for certain endpoints 

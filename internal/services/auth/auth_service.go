@@ -22,3 +22,17 @@ func (s *AuthService) Authenticate(req *LoginRequest, secretKey string) (string,
 	}
 	return accessToken, nil
 }
+
+func (s *AuthService) Logout(req *LogoutRequest, secretKey string) error {
+	if err := LogoutRequestValidate(req); err != nil {
+		return err
+	}
+	return user.Logout(s.repository, req.AccessToken, secretKey)
+}
+
+func (s *AuthService) Signup(req *SignupRequest, secretKey string) error {
+	if err := SignupRequestValidate(req); err != nil {
+		return err
+	}
+	return user.Signup(s.repository, req.Username, req.Password)
+}

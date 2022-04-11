@@ -1,7 +1,5 @@
 package product_service
 
-import "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/category"
-
 func CreateProductValidate(r *CreateProductRequest) error {
 	if r.Name == "" {
 		return ErrProductNameEmpty
@@ -12,11 +10,11 @@ func CreateProductValidate(r *CreateProductRequest) error {
 	if r.UnitPrice <= 0 {
 		return ErrProductPriceInvalid
 	}
-	if r.Quantity <= 0 {
+	if r.Stock <= 0 {
 		return ErrProductQuantityInvalid
 	}
-	if r.Category == (category.Category{}) {
-		return ErrProductCategoryEmpty
+	if r.CategoryID <= 0 {
+		return ErrProductCategoryInvalid
 	}
 	return nil
 }
@@ -34,11 +32,11 @@ func UpdateProductValidate(r *UpdateProductRequest) error {
 	if r.UnitPrice <= 0 {
 		return ErrProductPriceInvalid
 	}
-	if r.Quantity <= 0 {
+	if r.Stock <= 0 {
 		return ErrProductQuantityInvalid
 	}
-	if r.Category == (category.Category{}) {
-		return ErrProductCategoryEmpty
+	if r.CategoryID <= 0 {
+		return ErrProductCategoryInvalid
 	}
 	return nil
 }

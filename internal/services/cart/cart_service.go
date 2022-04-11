@@ -17,7 +17,7 @@ func (s *CartService) Create(req *CreateCartRequest) error {
 	//map products and sum their prices and equalize them to cart total price
 	var totalPrice float64
 	for _, product := range req.Products {
-		totalPrice += product.UnitPrice * float64(product.Quantity)
+		totalPrice += product.UnitPrice * float64(product.Stock)
 	}
 
 	newCart := &cart.Cart{
@@ -34,7 +34,7 @@ func (s *CartService) Update(req *UpdateCartRequest) error {
 	}
 	var totalPrice float64
 	for _, product := range req.Products {
-		totalPrice += product.UnitPrice * float64(product.Quantity)
+		totalPrice += product.UnitPrice * float64(product.Stock)
 	}
 	newCart := &cart.Cart{
 		ID:         req.ID,

@@ -3,7 +3,6 @@ package product
 import (
 	"time"
 
-	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/category"
 	"gorm.io/gorm"
 )
 
@@ -13,10 +12,9 @@ type Product struct {
 	Name       string
 	SKU        string
 	UnitPrice  float64
-	Quantity   int
+	Stock      int
 	CategoryID int
-	Category   category.Category `gorm:"foreignKey:CategoryID;references:ID"`
-	CreatedAt  time.Time         `gorm:"<-:create"`
+	CreatedAt  time.Time `gorm:"<-:create"`
 }
 
 func Create(r Repository, p *Product) error {
@@ -33,4 +31,8 @@ func Delete(r Repository, id int) error {
 
 func FindByID(r Repository, id int) (*Product, error) {
 	return r.FindByID(id)
+}
+
+func FindAll(r Repository) ([]*Product, error) {
+	return r.FindAll()
 }

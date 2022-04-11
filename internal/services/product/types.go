@@ -1,22 +1,20 @@
 package product_service
 
-import "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/category"
-
 type CreateProductRequest struct {
-	Name      string            `json:"name"`
-	SKU       string            `json:"SKU"`
-	UnitPrice float64           `json:"unit_price"`
-	Quantity  int               `json:"quantity"`
-	Category  category.Category `json:"category"`
+	Name       string  `json:"name"`
+	SKU        string  `json:"SKU"`
+	UnitPrice  float64 `json:"unit_price"`
+	Stock      int     `json:"stock"`
+	CategoryID int     `json:"category_id"`
 }
 
 type UpdateProductRequest struct {
-	ID        int               `json:"id"`
-	Name      string            `json:"name"`
-	SKU       string            `json:"description"`
-	UnitPrice float64           `json:"unit_price"`
-	Quantity  int               `json:"quantity"`
-	Category  category.Category `json:"category"`
+	ID         int     `json:"id"`
+	Name       string  `json:"name"`
+	SKU        string  `json:"description"`
+	UnitPrice  float64 `json:"unit_price"`
+	Stock      int     `json:"stock"`
+	CategoryID int     `json:"category_id"`
 }
 
 type DeleteProductRequest struct {
