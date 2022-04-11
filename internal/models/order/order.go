@@ -12,8 +12,8 @@ var mutex = &sync.Mutex{}
 type Order struct {
 	gorm.Model
 	ID            int
-	CustomerID    int             `gorm:"foreignKey:CustomerID"`
-	OrderProducts []*OrderProduct `gorm:"foreignKey:OrderID"`
+	CustomerID    int
+	OrderProducts []*OrderProduct
 	TotalPrice    float64
 	Active        bool
 	CreatedAt     time.Time `gorm:"<-:create"`
@@ -21,10 +21,9 @@ type Order struct {
 
 type OrderProduct struct {
 	gorm.Model
-	OrderID   int `gorm:"foreignKey:OrderID"`
-	ProductID int `gorm:"foreignKey:ProductID"`
+	OrderID   int
+	ProductID int
 	Quantity  int
-	CreatedAt time.Time `gorm:"<-:create"`
 }
 
 func Create(r Repository, order *Order) error {

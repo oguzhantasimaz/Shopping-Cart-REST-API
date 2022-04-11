@@ -16,10 +16,12 @@ func NewOrderRepository(db *gorm.DB) *orderRepository {
 
 func (r *orderRepository) Migration() error {
 	err := r.db.Migrator().DropTable(&order.Order{})
+	err = r.db.Migrator().DropTable(&order.OrderProduct{})
 	if err != nil {
 		return err
 	}
 	err = r.db.AutoMigrate(&order.Order{})
+	err = r.db.AutoMigrate(&order.OrderProduct{})
 	if err != nil {
 		return err
 	}
@@ -33,7 +35,7 @@ func (r *orderRepository) Create(o *order.Order) error {
 
 func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, error) {
 	var orders []order.Order
-	err := r.db.Preload("Products").Where("customer_id = ?", customerID).Find(&orders).Error
+	err := r.db.Preload("OrderProducts").Where("customer_id = ?", customerID).Find(&orders).Error
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +45,7 @@ func (r *orderRepository) FindAllByCustomerID(customerID int) (*[]order.Order, e
 func (r *orderRepository) FindByID(id int) (*order.Order, error) {
 	o := new(order.Order)
 	// get order by id and associated order products with it
-	err := r.db.Preload("Products").Where("id = ?", id).First(o).Error
+	err := r.db.Preload("OrderProducts").Where("id = ?", id).First(o).Error
 
 	if err != nil {
 		return nil, err
