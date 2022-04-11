@@ -9,4 +9,6 @@ var (
 	ErrProductIDRequired        = errors.New("product id is required")
 	ErrProductQuantityRequired  = errors.New("product quantity is required")
 	ErrProductUnitPriceRequired = errors.New("product unit price is required")
+	ErrInvalidProductID         = errors.New("invalid product id")
+	ErrInvalidQuantity          = errors.New("invalid quantity")
 )

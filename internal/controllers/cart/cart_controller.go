@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/cart"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
 	cart_service "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/services/cart"
 	"strconv"
 )
@@ -12,9 +13,9 @@ type CartController struct {
 	service cart_service.CartService
 }
 
-func NewCartController(repository cart.Repository) *CartController {
+func NewCartController(repository cart.Repository, proRepo product.Repository) *CartController {
 	return &CartController{
-		service: *cart_service.NewCartService(repository),
+		service: *cart_service.NewCartService(repository, proRepo),
 	}
 }
 

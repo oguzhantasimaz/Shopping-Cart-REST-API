@@ -58,7 +58,7 @@ func main() {
 
 	userRepo.InsertSampleData()
 
-	cartCtrl := cart_controller.NewCartController(cartRepo)
+	cartCtrl := cart_controller.NewCartController(cartRepo, productRepo)
 	categoryCtrl := category_controller.NewCategoryController(categoryRepo)
 	orderCtrl := order_controller.NewOrderController(orderRepo, productRepo)
 	productCtrl := product_controller.NewProductController(productRepo, categoryRepo)

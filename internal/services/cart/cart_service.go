@@ -1,13 +1,17 @@
 package cart_service
 
-import "github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/cart"
+import (
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/cart"
+	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
+)
 
 type CartService struct {
 	repository cart.Repository
+	proRepo    product.Repository
 }
 
-func NewCartService(repository cart.Repository) *CartService {
-	return &CartService{repository: repository}
+func NewCartService(repository cart.Repository, proRepo product.Repository) *CartService {
+	return &CartService{repository: repository, proRepo: proRepo}
 }
 
 func (s *CartService) Create(req *CreateCartRequest) error {
@@ -16,14 +20,18 @@ func (s *CartService) Create(req *CreateCartRequest) error {
 	}
 	//map products and sum their prices and equalize them to cart total price
 	var totalPrice float64
-	for _, product := range req.Products {
-		totalPrice += product.UnitPrice * float64(product.Stock)
+	for _, p := range req.CartProducts {
+		product, err := product.FindByID(s.proRepo, p.ProductID)
+		if err != nil {
+			return err
+		}
+		totalPrice += product.UnitPrice * float64(p.Quantity)
 	}
 
 	newCart := &cart.Cart{
-		CustomerID: req.CustomerID,
-		Products:   req.Products,
-		TotalPrice: totalPrice,
+		CustomerID:   req.CustomerID,
+		CartProducts: req.CartProducts,
+		TotalPrice:   totalPrice,
 	}
 	return cart.Create(s.repository, newCart)
 }
@@ -33,14 +41,18 @@ func (s *CartService) Update(req *UpdateCartRequest) error {
 		return err
 	}
 	var totalPrice float64
-	for _, product := range req.Products {
-		totalPrice += product.UnitPrice * float64(product.Stock)
+	for _, p := range req.CartProducts {
+		product, err := product.FindByID(s.proRepo, p.ProductID)
+		if err != nil {
+			return err
+		}
+		totalPrice += product.UnitPrice * float64(p.Quantity)
 	}
 	newCart := &cart.Cart{
-		ID:         req.ID,
-		CustomerID: req.CustomerID,
-		Products:   req.Products,
-		TotalPrice: totalPrice,
+		ID:           req.ID,
+		CustomerID:   req.CustomerID,
+		CartProducts: req.CartProducts,
+		TotalPrice:   totalPrice,
 	}
 	return cart.Update(s.repository, newCart)
 }

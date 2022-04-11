@@ -4,7 +4,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/oguzhantasimaz/Shopping-Cart-REST-API/internal/models/product"
 	"gorm.io/gorm"
 )
 
@@ -12,11 +11,18 @@ var mutex = &sync.Mutex{}
 
 type Cart struct {
 	gorm.Model
-	ID         int
-	CustomerID int                `gorm:"foreignkey:CustomerID"`
-	Products   []*product.Product `gorm:"many2many:cart_products"`
-	TotalPrice float64
-	CreatedAt  time.Time `gorm:"<-:create"`
+	ID           int
+	CustomerID   int `gorm:"foreignkey:CustomerID"`
+	CartProducts []*CartProduct
+	TotalPrice   float64
+	CreatedAt    time.Time `gorm:"<-:create"`
+}
+
+type CartProduct struct {
+	gorm.Model
+	CartID    int
+	ProductID int
+	Quantity  int
 }
 
 func Create(r Repository, cart *Cart) error {

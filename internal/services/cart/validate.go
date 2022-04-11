@@ -4,19 +4,16 @@ func CreateCartValidate(r *CreateCartRequest) error {
 	if r.CustomerID <= 0 {
 		return ErrCustomerIDRequired
 	}
-	if r.Products == nil || len(r.Products) == 0 {
+	if r.CartProducts == nil || len(r.CartProducts) == 0 {
 		return ErrProductsRequired
 	}
-	if r.Products != nil {
-		for _, product := range r.Products {
-			if product.ID <= 0 {
-				return ErrProductIDRequired
+	if r.CartProducts != nil {
+		for _, p := range r.CartProducts {
+			if p.Quantity <= 0 {
+				return ErrInvalidQuantity
 			}
-			if product.Stock <= 0 {
-				return ErrProductQuantityRequired
-			}
-			if product.UnitPrice <= 0 {
-				return ErrProductUnitPriceRequired
+			if p.ProductID <= 0 {
+				return ErrInvalidProductID
 			}
 		}
 	}
@@ -30,19 +27,16 @@ func UpdateCartValidate(r *UpdateCartRequest) error {
 	if r.CustomerID <= 0 {
 		return ErrCustomerIDRequired
 	}
-	if r.Products == nil || len(r.Products) == 0 {
+	if r.CartProducts == nil || len(r.CartProducts) == 0 {
 		return ErrProductsRequired
 	}
-	if r.Products != nil {
-		for _, product := range r.Products {
-			if product.ID <= 0 {
-				return ErrProductIDRequired
+	if r.CartProducts != nil {
+		for _, p := range r.CartProducts {
+			if p.Quantity <= 0 {
+				return ErrInvalidQuantity
 			}
-			if product.Stock <= 0 {
-				return ErrProductQuantityRequired
-			}
-			if product.UnitPrice <= 0 {
-				return ErrProductUnitPriceRequired
+			if p.ProductID <= 0 {
+				return ErrInvalidProductID
 			}
 		}
 	}
