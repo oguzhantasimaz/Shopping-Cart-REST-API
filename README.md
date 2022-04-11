@@ -8,7 +8,7 @@ TODO:
 - [ ] Integration Tests
 - [ ] Create Bulk Category with CSV
 - [ ] Pagination
-- [ ] Signup Endpoint
+- [x] Signup Endpoint
 - [x] Logout Endpoint
 - [x] Cancel order 
 - [ ] Add query params to get all products' endpoint for filtering
